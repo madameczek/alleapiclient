@@ -26,8 +26,9 @@ Aplikacja pobiera koszty zamowień z allegro api.
 ## Do zrobienia
 
 1. Encje łączące Płatność - Zamówienie i Płatność - Oferta
-2. Repozytorium obsługujące persystencję z uwzględnieniem typu płatności
-3. Serwis sklejający części składowe (np. background worker z timerem, który mógłby pobierać nowe płatności)
+2. Mapery modeli dancy z allegro do encji bazodanowych
+3. Repozytorium obsługujące persystencję z uwzględnieniem typu płatności
+4. Serwis sklejający części składowe (np. background worker z timerem, który mógłby pobierać nowe płatności)
 
 ## Nie przewidziane
 1. Testy
