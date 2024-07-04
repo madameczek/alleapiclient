@@ -10,7 +10,7 @@ Aplikacja pobiera koszty zamowień z allegro api.
   * Typy płatności - *type* z allego api
   * Kategorie płatności - koszty stałe, prowizje, inne koszty
 * Pobieranie access tokena z dysku lub appsettings.json lub user-secrets
-  * Klasa Token reader ma zmienną *path*. Stamdtąd nastąpi próba pobrania ściągniętego tokena
+  * Klasa *TokenReader* ma zmienną *path*. Stamdtąd nastąpi próba pobrania ściągniętego tokena
 * Modele danych z allegro api dla płatności powiązanych z zamówieniem i nie powiązanych
 * Pobieranie danych z allegro api
   * aplikacja wypisuje pobrane dane na konsoli
@@ -21,7 +21,7 @@ Aplikacja pobiera koszty zamowień z allegro api.
   * AllegroClient - pobiera koszty z api
     * wszystkie
     * albo tylko powiązane z zamówieniem (parametr opcjonalny)
-  * Customowe konwertery json zwracają sparsowane dane w odpowiednich typach (kwota do decimal itd.)
+  * Customowe konwertery deserializatora json zwracają sparsowane dane w odpowiednich typach (kwota do decimal itd.)
 
 ## Do zrobienia
 
