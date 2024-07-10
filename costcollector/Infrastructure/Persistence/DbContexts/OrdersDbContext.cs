@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace costcollector.Infrastructure.Persistence.DbContexts;
 
-public partial class OrdersDbContext : DbContext
+public class OrdersDbContext : DbContext
 {
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderEntry> Offers { get; set; }
+    public DbSet<Order> Orders { get; set; } = null!;
+    public DbSet<OrderEntry> Offers { get; set; } = null!;
+    public DbSet<Payment> Payments { get; set; } = null!;
 
     public OrdersDbContext(DbContextOptions<OrdersDbContext> options) : base(options)
     { }

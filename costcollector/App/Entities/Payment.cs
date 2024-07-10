@@ -10,5 +10,5 @@ public class Payment
     public double TaxPercentage { get; set; }
     public string PaymentTypeId { get; set; } = null!;
     
-    public PaymentType Type { get; set; } = null!;
+    public virtual PaymentType Type { get; set; } = null!;
 }

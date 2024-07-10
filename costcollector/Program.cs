@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Unicode;
+using costcollector.App.Entities;
 using costcollector.App.Interfaces;
 using costcollector.App.Services;
 using costcollector.Common;
@@ -10,6 +11,7 @@ using costcollector.Common.Configuration;
 using costcollector.Infrastructure.HttpClients;
 using costcollector.Infrastructure.Models;
 using costcollector.Infrastructure.Persistence.DbContexts;
+using costcollector.Infrastructure.Persistence.Repositories;
 using costcollector.Infrastructure.TokenReaders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,10 @@ appBuilder.Services.Configure<CostTypes>(appBuilder.Configuration.GetSection(Cos
 
 appBuilder.Services.AddTransient<ICostTypeProvider, AppSettingsCostTypeProvider>();
 appBuilder.Services.AddTransient<IPaymentParser, PaymentParser>();
+appBuilder.Services.AddTransient<IAllegroService, AllegroService>();
+appBuilder.Services.AddTransient<IPaymentRepository, PaymentRepository>();
+appBuilder.Services.AddTransient<IAllegroService, AllegroService>();
+appBuilder.Services.AddTransient<IPaymentService, PaymentService>();
 
 appBuilder.Services.AddDbContext<OrdersDbContext>(options =>
 {
@@ -49,29 +55,18 @@ var options = new JsonSerializerOptions
 };
 appBuilder.Services.AddSingleton(options);
 
-
-
 var host = appBuilder.Build();
 
-await using var repo = host.Services.GetRequiredService<OrdersDbContext>();
-var orders = repo.Orders.ToArray();
-foreach (var order in orders)
-{
-    Console.WriteLine(order.OrderId);
-}
+// here application starts
+var allegroService = host.Services.GetRequiredService<IAllegroService>();
+var paymentService = host.Services.GetRequiredService<IPaymentService>();
 
-var allegro = host.Services.GetRequiredService<IAllegroClient>();
-var payments = await allegro.GetPayments();
-var serializerOptions = new JsonSerializerOptions
+var orders = await paymentService.GetOrders();
+foreach (var order in (orders as List<Order>)!)
 {
-    WriteIndented = true,
-    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
-};
-foreach (var payment in payments)
-{
-    Console.WriteLine(payment.Type.Id is "SUC" or "USF"
-        ? JsonSerializer.Serialize((AllegroTransactionCost)payment, serializerOptions)
-        : JsonSerializer.Serialize(payment, serializerOptions));
+    var payments = await allegroService.FetchPayments(order.OrderId);
+    foreach (var payment in payments)
+    {
+        await paymentService.SavePayment(payment);
+    }
 }
-
-Console.ReadKey();
