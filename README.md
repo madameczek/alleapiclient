@@ -41,4 +41,8 @@ Aplikacja pobiera koszty zamowień z allegro api.
 2. Obsługa błędów. Polityki obsługi transient I/O errors. Szczególnie błędów warstwy persystencji i nieważnego tokena
    1. Zrobienie tego pokaże sprawnie działającą aplikację, ale raczej spowoduje, że będzie ona mniej czytelna
 
-![]()
+## Diagram encji
+
+Schematy encji po prawej (OrderTable i OrderPositions) były dane w postaci skryptów SQL.
+
+![Diagram encji](./DbDiagram.png)
