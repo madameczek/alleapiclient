@@ -21,7 +21,7 @@ var appBuilder = Host.CreateApplicationBuilder();
 appBuilder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true, false);
 appBuilder.Services.Configure<CostTypes>(appBuilder.Configuration.GetSection(CostTypes.CostTypesSection));
 
-appBuilder.Services.AddTransient<ICostTypeProvider, CostTypeProvider>();
+appBuilder.Services.AddTransient<ICostTypeProvider, AppSettingsCostTypeProvider>();
 appBuilder.Services.AddTransient<IPaymentParser, PaymentParser>();
 
 appBuilder.Services.AddDbContext<OrdersDbContext>(options =>

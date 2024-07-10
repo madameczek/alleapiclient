@@ -5,11 +5,11 @@ using Microsoft.Extensions.Options;
 namespace costcollector.App.Services;
 
 // TODO implement fetching cost types from database for easy change at runtime
-public class CostTypeProvider : ICostTypeProvider
+public class AppSettingsCostTypeProvider : ICostTypeProvider
 {
     private readonly CostTypes _costTypes;
 
-    public CostTypeProvider(IOptions<CostTypes> costTypes) =>
+    public AppSettingsCostTypeProvider(IOptions<CostTypes> costTypes) =>
         _costTypes = costTypes.Value;
 
     public IEnumerable<string> GetTransactionCostTypes() =>
