@@ -13,8 +13,20 @@ public class PaymentTypeConfiguration : IEntityTypeConfiguration<PaymentType>
         entity.Property(e => e.Id).HasMaxLength(3);
         entity.Property(e => e.Description).HasMaxLength(200);
 
-        entity.HasOne(e => e.Category)
+        entity.HasMany(e => e.Categories)
             .WithMany(e => e.Types)
-            .HasForeignKey(e => e.PaymentCategoryId);
+            .UsingEntity<PaymentTypeCategory>(
+            "PaymentTypeCategory",
+            builder => builder.HasOne<PaymentCategory>()
+                .WithMany()
+                .HasForeignKey(e => e.IdPaymentCategory),
+            builder => builder.HasOne<PaymentType>()
+                .WithMany()
+                .HasForeignKey(e => e.IdPaymentType))
+            .HasData(new List<PaymentTypeCategory>
+            {
+                new() { IdPaymentCategory = 1, IdPaymentType = "USF" },
+                new() { IdPaymentCategory = 2, IdPaymentType = "SUC" }
+            });
     }
 }

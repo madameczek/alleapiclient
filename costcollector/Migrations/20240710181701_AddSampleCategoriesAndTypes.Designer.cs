@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using costcollector.Infrastructure.Persistence.DbContexts;
 
@@ -11,9 +12,11 @@ using costcollector.Infrastructure.Persistence.DbContexts;
 namespace costcollector.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    partial class OrdersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240710181701_AddSampleCategoriesAndTypes")]
+    partial class AddSampleCategoriesAndTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,18 +38,6 @@ namespace costcollector.Migrations
                     b.HasIndex("IdPaymentType");
 
                     b.ToTable("PaymentTypeCategory");
-
-                    b.HasData(
-                        new
-                        {
-                            IdPaymentCategory = 1,
-                            IdPaymentType = "USF"
-                        },
-                        new
-                        {
-                            IdPaymentCategory = 2,
-                            IdPaymentType = "SUC"
-                        });
                 });
 
             modelBuilder.Entity("costcollector.App.Entities.Order", b =>

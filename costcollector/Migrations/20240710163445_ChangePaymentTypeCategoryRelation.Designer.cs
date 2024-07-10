@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using costcollector.Infrastructure.Persistence.DbContexts;
 
@@ -11,9 +12,11 @@ using costcollector.Infrastructure.Persistence.DbContexts;
 namespace costcollector.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    partial class OrdersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240710163445_ChangePaymentTypeCategoryRelation")]
+    partial class ChangePaymentTypeCategoryRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,18 +38,6 @@ namespace costcollector.Migrations
                     b.HasIndex("IdPaymentType");
 
                     b.ToTable("PaymentTypeCategory");
-
-                    b.HasData(
-                        new
-                        {
-                            IdPaymentCategory = 1,
-                            IdPaymentType = "USF"
-                        },
-                        new
-                        {
-                            IdPaymentCategory = 2,
-                            IdPaymentType = "SUC"
-                        });
                 });
 
             modelBuilder.Entity("costcollector.App.Entities.Order", b =>
@@ -206,18 +197,6 @@ namespace costcollector.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentCategories", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Koszty stałe"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Koszty zmienne"
-                        });
                 });
 
             modelBuilder.Entity("costcollector.App.Entities.PaymentType", b =>
@@ -233,48 +212,6 @@ namespace costcollector.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("PaymentTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "USF",
-                            Description = "Jednostkowa opłata transakcyjna"
-                        },
-                        new
-                        {
-                            Id = "SUC",
-                            Description = "Prowizja od sprzedaży"
-                        },
-                        new
-                        {
-                            Id = "SUM",
-                            Description = "Podsumowanie miesiąca"
-                        },
-                        new
-                        {
-                            Id = "PB2",
-                            Description = "Wpłata"
-                        },
-                        new
-                        {
-                            Id = "VEP",
-                            Description = "Naliczenie VAT e-commerce"
-                        },
-                        new
-                        {
-                            Id = "ST4",
-                            Description = "Abonament za statystyki - 12 miesięcy"
-                        },
-                        new
-                        {
-                            Id = "RIC",
-                            Description = "Korekta salda"
-                        },
-                        new
-                        {
-                            Id = "RES",
-                            Description = "Opłata za cenę minimalną"
-                        });
                 });
 
             modelBuilder.Entity("PaymentTypeCategory", b =>

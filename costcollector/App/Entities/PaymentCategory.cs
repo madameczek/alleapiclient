@@ -2,7 +2,7 @@
 
 public class PaymentCategory
 {
-    public int id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
 
     public virtual IEnumerable<PaymentType>? Types { get; set; }
