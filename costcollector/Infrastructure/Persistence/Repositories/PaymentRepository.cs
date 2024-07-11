@@ -29,8 +29,9 @@ public class PaymentRepository : IPaymentRepository
         return await _dbContext.Orders.ToListAsync(cancellationToken: cancellationToken);
     }
 
-    public Task<IEnumerable<Payment>> GetCostsByCategory(int paymentCategoryId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Payment>> GetCostsByCategory(int paymentCategoryId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var payments = _dbContext.Payments.Where(p => p.Type.Categories.Contains(new PaymentCategory { Id = paymentCategoryId } ));
+        return await payments.ToListAsync(cancellationToken);
     }
 }

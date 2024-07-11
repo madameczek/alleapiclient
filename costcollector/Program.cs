@@ -1,15 +1,12 @@
 ﻿using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text.Encodings.Web;
 using System.Text.Json;
-using System.Text.Unicode;
 using costcollector.App.Entities;
 using costcollector.App.Interfaces;
 using costcollector.App.Services;
 using costcollector.Common;
 using costcollector.Common.Configuration;
 using costcollector.Infrastructure.HttpClients;
-using costcollector.Infrastructure.Models;
 using costcollector.Infrastructure.Persistence.DbContexts;
 using costcollector.Infrastructure.Persistence.Repositories;
 using costcollector.Infrastructure.TokenReaders;
@@ -69,4 +66,11 @@ foreach (var order in (orders as List<Order>)!)
     {
         await paymentService.SavePayment(payment);
     }
+}
+
+var fixedCosts = await paymentService.GetCosts(1);
+Console.WriteLine("Koszty stałe:");
+foreach (var cost in fixedCosts)
+{
+    Console.WriteLine(JsonSerializer.Serialize(cost));
 }
