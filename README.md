@@ -14,17 +14,16 @@ Aplikacja pobiera koszty zamowień z allegro api.
 * Modele danych z allegro api dla płatności powiązanych z zamówieniem i takich, które nie odnoszą się do zamówinia (np. wpłata)
 * Pobieranie danych z allegro api
 * Serwisy
-  * *AllegroClient* - pobiera koszty z api
+Update   * *AllegroClient* - w warstwie *Infrastructure*  pobiera koszty z api
     * wszystkie
     * albo tylko powiązane z zamówieniem (parametr opcjonalny)
-  * Jest też *AllegroService* utylizujące *AllegroClient*. 
-    * W zasadzie zbędne. Wystarczy przenieść obsługę błędów do *AllegroClient* 
+  * Jest też *AllegroService* w warstwie aplikacyjnej utylizujące *AllegroClient*.  
   * *PaymentParser* - parsuje różne typy płatności. Wykorzystywany przez *AllegroClient*
   * Customowe konwertery deserializatora json zwracają sparsowane dane w odpowiednich typach (kwota do decimal itd.)
   * Pobieranie kategorii kosztów z appsettings
     * wskazuje jakie typy są kosztami stałymi, a jakie kosztami transakcji
-  * Repozytorium *PaymentRepository* (MS SQL)
-    * Serwis obługujący repozytorium (w tak małej apce ta dodatkowa warstwa wydaje się zbędna, ale już jest zrobiona ;)
+  * Repozytorium *PaymentRepository* (MS SQL) w warstwie *Infrastructure*
+  * *PaymentService* wykorzystuje powyższe repozytorium
 * Aplikacja zapisuje wynik działania do tabeli `[militaria].[dbo].[Payments]`
   * Pobierane są tylko płatności związane z istniejącym w bazie zamówieniem 
   * Nie są zapisywane duplikaty płatności przy ponownym uruchomieniu aplikacji
@@ -37,9 +36,9 @@ Aplikacja pobiera koszty zamowień z allegro api.
 * Jest wykonane i zasilone danymi powiązanie kategorii (np. koszty stałe) i typu płatności. Można dokończyć drugie polecenie czyli pobierać z bazy płatności o zadanej kategorii
 
 ## Nie przewidziane
-1. Testy
+1. Testy (na życzenie ;)
 2. Obsługa błędów. Polityki obsługi transient I/O errors. Szczególnie błędów warstwy persystencji i nieważnego tokena
-   1. Zrobienie tego pokaże sprawnie działającą aplikację, ale raczej spowoduje, że będzie ona mniej czytelna
+   1. Wykonując koncepcję, jak tu chodzi raczej o pokazanie struktury aplikacji niż o wdrożenie wersji z pełną obsługą błędów. W niektórych przypadkach w warstwie aplikacji zaznaczyłem bloki try/catch 
 
 ## Diagram encji
 
