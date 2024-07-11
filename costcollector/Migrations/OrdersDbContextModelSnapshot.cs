@@ -34,7 +34,7 @@ namespace costcollector.Migrations
 
                     b.HasIndex("IdPaymentType");
 
-                    b.ToTable("PaymentTypeCategory");
+                    b.ToTable("PaymentTypeCategory", (string)null);
 
                     b.HasData(
                         new
