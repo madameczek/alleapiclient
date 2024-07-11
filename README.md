@@ -1,6 +1,8 @@
 # cost collector
 
-Aplikacja pobiera koszty zamowień z allegro api.
+Aplikacja pobiera koszty zamowień z allegro api oraz
+1. Zapisuje nowe pozycje do bazy
+2. Jednocześnie wypisuje na konsoli pozycje z kategorii "koszty stałe"
 
 ## Zrobione
 
@@ -14,7 +16,7 @@ Aplikacja pobiera koszty zamowień z allegro api.
 * Modele danych z allegro api dla płatności powiązanych z zamówieniem i takich, które nie odnoszą się do zamówinia (np. wpłata)
 * Pobieranie danych z allegro api
 * Serwisy
-Update   * *AllegroClient* - w warstwie *Infrastructure*  pobiera koszty z api
+  * *AllegroClient* - w warstwie *Infrastructure*  pobiera koszty z api
     * wszystkie
     * albo tylko powiązane z zamówieniem (parametr opcjonalny)
   * Jest też *AllegroService* w warstwie aplikacyjnej utylizujące *AllegroClient*.  
@@ -24,21 +26,27 @@ Update   * *AllegroClient* - w warstwie *Infrastructure*  pobiera koszty z api
     * wskazuje jakie typy są kosztami stałymi, a jakie kosztami transakcji
   * Repozytorium *PaymentRepository* (MS SQL) w warstwie *Infrastructure*
   * *PaymentService* wykorzystuje powyższe repozytorium
+    * Zapis danych pobranych z allegro
+    * Wyświetlenie pozycji z kategorii "koszty stałe"
 * Aplikacja zapisuje wynik działania do tabeli `[militaria].[dbo].[Payments]`
   * Pobierane są tylko płatności związane z istniejącym w bazie zamówieniem 
   * Nie są zapisywane duplikaty płatności przy ponownym uruchomieniu aplikacji
 * Mapery modeli danych z allegro do encji bazodanowych
 
-## Do zrobienia
-
-* Ewentualnie serwis sklejający części składowe (np. background worker z timerem, który mógłby pobierać nowe płatności)
-  * Tymczasem nie jest uruchamiana aplikacja. Ze zbudowanego hosta pobierane są potrzebne serwisy
-* Jest wykonane i zasilone danymi powiązanie kategorii (np. koszty stałe) i typu płatności. Można dokończyć drugie polecenie czyli pobierać z bazy płatności o zadanej kategorii
-
 ## Nie przewidziane
 1. Testy (na życzenie ;)
 2. Obsługa błędów. Polityki obsługi transient I/O errors. Szczególnie błędów warstwy persystencji i nieważnego tokena
    1. Wykonując koncepcję, jak tu chodzi raczej o pokazanie struktury aplikacji niż o wdrożenie wersji z pełną obsługą błędów. W niektórych przypadkach w warstwie aplikacji zaznaczyłem bloki try/catch 
+
+## Demo
+
+1. Ustaw miejsce z którego będzie pobierany access token (user-secrets/appsettings.json lub folder *Download* Twojego komputera)
+2. Ustaw connection string do bazy *militaria*
+3. Zaaplikuj migracje *dotnet ef database update*
+4. Pobierz token
+5. Uruchom aplikację
+6. Aplikacja zapisze do bazy pobrane platności
+7. Aplikacja wypisze na konsoli "koszty stałe" zapisane w bazie
 
 ## Diagram encji
 
