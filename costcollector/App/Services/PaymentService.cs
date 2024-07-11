@@ -42,4 +42,18 @@ public class PaymentService : IPaymentService
             throw;
         }
     }
+
+    public async Task<IEnumerable<Payment>> GetCosts(int paymentCategoryId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            return await _repository.GetCostsByCategory(paymentCategoryId, cancellationToken);
+        }
+        catch (Exception e)
+        {
+            // TODO implement transient IO error resilience policy
+            _logger.LogError("Error message: {Message}", e.Message);
+            throw;
+        }
+    }
 }

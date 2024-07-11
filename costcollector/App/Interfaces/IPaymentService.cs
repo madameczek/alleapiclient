@@ -6,4 +6,5 @@ public interface IPaymentService
 {
     public Task SavePayment(Payment payment, CancellationToken cancellationToken = default);
     public Task<IEnumerable<Order>> GetOrders(CancellationToken cancellationToken = default);
+    public Task<IEnumerable<Payment>> GetCosts (int paymentCategoryId, CancellationToken cancellationToken = default);
 }
